@@ -1,59 +1,32 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-bool banco[100][100];
-long long ans;
-int n;
-
-void init()
-{
-    ans = 0;
-    for(int i=1; i<=n; ++i)
-        for(int j=1; j<=n; ++j)
-            banco[i][j] = true;
-}
-
-void inbanco()
+int A[20], B[20], n, xuoi[20], nguoc[20], dem;
+/*
+void in()
 {
     for(int i=1; i<=n; ++i)
-    {
-        for(int j=1; j<=n; ++j)
-            cout << banco[i][j] << " ";
-        cout << endl ;
-    }
+        cout << A[i] << " ";
     cout << endl;
 }
-
-int check(int i, int j)
+*/
+void quaylui(int i)
 {
-    int ii = max(i,j);
-    int jj = min(i,j);
-    for(int k=1; k<=n; ++k)
-        if(!(banco[i][k] && banco[k][j] && banco[ii-jj+k][k]))
-            return 0;
-    return 1;
-}
-
-void timchoquanthu(int num)
-{
-    inbanco();
-    if(num > n)
-        return;
-    for(int i=1; i<=n; ++i)
+    for(int j=1; j<=n; ++j)
     {
-        for(int j=1; j<=n; ++j)
+        if(B[j] == 0 && xuoi[i-j+n] == 0 && nguoc[i+j-1] == 0)
         {
-            if(check(i, j))
-            {
-                banco[i][j] = false;
-                if(num == n)
-                {
-                    ++ans;
-                }
-                timchoquanthu(num + 1);
-                banco[i][j] = true;
-                inbanco();
-            }
+            A[i] = j;
+            B[j] = 1;
+            xuoi[i-j+n] = 1;
+            nguoc[i+j-1] = 1;
+            if(i == n)
+                ++dem;
+            else
+                quaylui(i+1);
+            B[j] = 0;
+            xuoi[i-j+n] = 0;
+            nguoc[i+j-1] = 0;
         }
     }
 }
@@ -64,10 +37,16 @@ int main()
     cin >> t;
     while(t--)
     {
+        dem = 0;
         cin >> n;
-        init();
-        timchoquanthu(1);
-        cout << ans;
+        for(int i=0; i<20; ++i)
+        {
+            B[i] = 0;
+            xuoi[i] = 0;
+            nguoc[i] = 0;
+        }    
+        quaylui(1);
+        cout << dem;
     }
     return 0;
 }

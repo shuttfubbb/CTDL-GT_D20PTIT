@@ -13,17 +13,14 @@ void in()
 
 void sinh(int i)
 {
+    for(int j=a[i-1] + 1; j <= n-k+i; ++j)
     {
-        for(int j=a[i-1] + 1; j <= n-k+i; ++j)
-        {
-            a[j] = i;
-            if(i == k)
-                in();
-            else
-                sinh(i+1);
-        }
-    }  
-       
+        a[j] = i;
+        if(i == k)
+            in();
+        else
+            sinh(i+1);
+    }
 }
 
 int main()
