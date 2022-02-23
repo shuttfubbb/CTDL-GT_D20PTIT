@@ -11,24 +11,24 @@ void in()
     cout << endl;
 }
 
-void sinh(int j)
+void sinh(int i)
 {
-    if(j <= k)
     {
-        for(int i=a[j-1] + 1; i <= n-k+j; ++i)
+        for(int j=a[i-1] + 1; j <= n-k+i; ++j)
         {
             a[j] = i;
-            sinh(j+1);
+            if(i == k)
+                in();
+            else
+                sinh(i+1);
         }
-    } 
-    else 
-       in();
+    }  
+       
 }
 
 int main()
 {
-    for(int i=0; i<100000; ++i)
-        a[i] = 0;
+    a[0] = 0;
     int t;
     cin >> t;
     while(t--)
