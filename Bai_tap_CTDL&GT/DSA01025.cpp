@@ -3,34 +3,39 @@ using namespace std;
 
 int n,k;
 int a[100000];
-char mystr[] = " ABCDEFGHIKLMNOPQRSTUVWXYZ";
+
 void in()
 {
     for(int i=1; i<=k; ++i)
-        cout << mystr[a[i]];
+    {
+        char x = a[i] + 'A' - 1;
+        cout << x;
+    }
     cout << endl;
 }
 
-void sinh(int i)
+void sinh(int j)
 {
-    for(int j=a[i-1] + 1; j <= n-k+i; ++j)
+    for(int i=a[j-1] + 1; i <= n-k+j; ++i)
     {
         a[j] = i;
-        if(i == k)
+        if(j == k)
             in();
         else
-            sinh(i+1);
+            sinh(j+1);
     }
 }
 
 int main()
 {
-    a[0] = 0;
+    
     int t;
     cin >> t;
     while(t--)
     {
         cin >> n >> k;
+        for(int i=0; i<100000; ++i)
+            a[i] = 0;
         sinh(1);      
     }
     return 0;

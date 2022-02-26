@@ -36,7 +36,7 @@ int main()
         cin >> X[i];
         B[i] = 1;
     }
-    sort(X, X+n);
+    sort(X+1, X+n+1);
     sinh(1);
     return 0;
 }
