@@ -26,6 +26,7 @@ int main()
     cin >> t;
     while(t--)
     {
+        myset.clear();
         int n;
         cin >> n;
         while(n--)
