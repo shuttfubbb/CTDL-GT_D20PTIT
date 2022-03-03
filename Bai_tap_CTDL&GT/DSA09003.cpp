@@ -9,18 +9,17 @@ int main()
     {
         int V, E;
         cin >> V >> E;
-        vector<vector<int> > dothi(V+1, vector<int> ());
-        for(int i=0; i<E; ++i)
+        vector<vector<int> > dothi (V+1, vector<int> ());
+        for(int i=1; i<= E; ++i)
         {
             int a, b;
             cin >> a >> b;
             dothi[a].push_back(b);
-            dothi[b].push_back(a);
         }
-        for(int i=1; i<=V; ++i)
+        for(int i=1; i<= V; ++i)
         {
-            cout << i << ": "; 
-            for(int j=0; j<dothi[i].size(); ++j)
+            cout << i << ": ";
+            for(int j =0; j<dothi[i].size(); ++j)
                 cout << dothi[i][j] << " ";
             cout << endl;
         }
