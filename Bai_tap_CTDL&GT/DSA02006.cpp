@@ -1,44 +1,34 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int n,k;
+int n, k, c[1000], check;
 int a[1000];
-bool check = true;
 
-void in(int c[])
+void in(int len)
 {
-    int sum = 0;
     cout << "[";
-    for(int i=0; i<n; ++i)
-    {
-        if(a[i] == 1)
-        {
-            sum += c[i]*a[i];
-            if(sum != k)
-                cout << c[i] << " ";
-            else
-                cout << c[i];
-        }
-    }
-    cout << "] ";
+    for(int i=1; i<len; ++i)
+        if(a[i])
+            cout << c[i] << " ";
+    if(a[len])
+        cout << c[len] << "] ";
 }
-void tinh(int c[], int x, int sum)
+
+void quaylui(int i, int sum)
 {
-    if(sum < k)
+    for(int j=1; j>=0; --j)
     {
-        for(int i=1; i>=0; --i)
+        a[i] = j;
+        if(sum + a[i]*c[i] == k)
         {
-            a[x] = i;
-            if(sum + (c[x] * a[x]) <= k && x < n)
-                tinh(c, x + 1, sum + (c[x] * a[x]));
+            ++check;
+            in(i);
+        }
+        else if(sum + a[i]*c[i] < k && i < n)
+        {
+            quaylui(i+1, sum + a[i]*c[i]);
         }
     }
-    else if(sum == k)
-    {
-        in(c);
-        check = false;
-    }
-        
 }
 
 int main()
@@ -47,15 +37,13 @@ int main()
     cin >> t;
     while(t--)
     {
-        int c[10000];
+        check = 0;
         cin >> n >> k;
-        for(int i=0; i<n; ++i)
-        {
+        for(int i=1; i<= n; ++i)
             cin >> c[i];
-        }
-        sort(c, c+n);
-        tinh(c, 0, 0);
-        if(check)
+        sort(c+1, c+n+1);
+        quaylui(1, 0);
+        if(!check)
             cout << -1;
         cout << endl;
     }

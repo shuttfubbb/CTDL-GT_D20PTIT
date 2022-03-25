@@ -1,47 +1,38 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+int a[100][100];
+int x[] = {1, 0};
+int y[] = {0, 1};
+char c[] = "DR";
 int n;
-int a[100][1000];
-string ans;
-vector<string> res;
-int xa[] = {1,0};
-int ya[] = {0,1};
-bool check = true;
+vector<char> ans;
+int check;
 
-void tim(int x, int y)
+void in()
 {
-    if(x < n && y < n)
+    ++check;
+    for(auto it : ans)
+        cout << it;
+    cout << " ";
+}
+
+void dequy(int xx, int yy)
+{   
+    for(int i=0; i<= 1; ++i)
     {
-        if(x == n-1 && y == n-1)
+        if(a[xx + x[i]][yy + y[i]])
         {
-            res.push_back(ans);
-//           check = false;
+            ans.push_back(c[i]);
+            if(xx + x[i] == n && yy + y[i] == n)
+                in();
+            else
+                dequy(xx + x[i], yy + y[i]);
+            ans.pop_back();
         }
-        else
-        {
-            for(int i=0; i<=1; ++i)
-            {
-                if(x + xa[i] < n && y + ya[i] < n && a[x + xa[i]][y + ya[i]])
-                {
-                    if(i == 0)
-                        ans.push_back('D');
-                    else
-                        ans.push_back('R');
-                    tim(x + xa[i], y + ya[i]);
-                    ans.erase(ans.end()-1);
-                }
-            }
-        }
-    }
-    if(x == 0 && y == 0 && res.empty())
-        cout << -1;
-    if(x == 0 && y == 0 && !res.empty())
-    {
-        for(auto i : res)
-            cout << i << " ";
     }
 }
+
 
 int main()
 {
@@ -49,15 +40,21 @@ int main()
     cin >> t;
     while(t--)
     {
-        ans.clear();
+        memset(a, 0, sizeof(a));
         cin >> n;
-        for(int i=0 ;i<n; ++i)
-            for(int j = 0; j<n; ++j)
+        for(int i=1; i<=n; ++i)
+            for(int j=1; j<=n; ++j)
                 cin >> a[i][j];
-        if(a[0][0] == 0)
+        check = 0;
+        ans.clear();
+        if(a[1][1] == 0)
             cout << -1;
         else
-            tim(0, 0);
+        {
+            dequy(1, 1);
+            if(!check)
+                cout << -1;
+        }
         cout << endl;
     }
     return 0;

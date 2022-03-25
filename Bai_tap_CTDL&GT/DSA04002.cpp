@@ -20,11 +20,11 @@ long long luythua(long long k)
 {
     if(k == 0)
         return 1 % MD;
-    long long tmp = luythua(k/2) % MD;
+    long long tmp = luythua(k/2);
     if(k % 2 == 0)
-        return (tmp%MD * tmp%MD)%MD;
+        return tmp * tmp % MD;
     else
-        return (n%MD * (tmp%MD * tmp%MD)%MD)%MD;
+        return n * (tmp * tmp%MD)%MD;
 }
 
 

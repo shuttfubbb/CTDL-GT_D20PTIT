@@ -7,11 +7,11 @@ long long Mu(long long num)
 {
     if(num == 0)
         return 1;
-    long long tmp = Mu(num/2) % MD;
+    long long tmp = Mu(num/2);
     if(num % 2 == 0)
-        return (tmp * tmp) % MD;
+        return tmp * tmp % MD;
     else
-        return (tmp * tmp) * a;
+        return  a * (tmp * tmp % MD) % MD;
 }
 
 int main()
