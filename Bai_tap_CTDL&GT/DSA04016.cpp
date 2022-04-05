@@ -2,13 +2,7 @@
 using namespace std;
 
 int m, n, k;
-int *a = new int[1000000];
-int *b = new int[1000000];
-
-void tim()
-{
-
-}
+vector<int> a, b;
 
 int main()
 {
@@ -16,12 +10,18 @@ int main()
     cin >> t;
     while(t--)   
     {
+        a.clear();
+        b.clear();
         cin >> m >> n >> k;
-        for(int i=0; i<m; ++i)
-            cin >> a[i];
-        for(int i=0; i<n; ++i)
-            cin >> b[i];
-        tim(m, n);
+        vector<int> myvt(n + m + 5);
+        a.assign(m, 0);
+        b.assign(n, 0);
+        for(auto &i : a)
+            cin >> i;
+        for(auto &i : b)
+            cin >> i;
+        merge(a.begin(), a.end(), b.begin(), b.end(), myvt.begin());
+        cout << myvt[k-1] << endl;
     }
     return 0;
 }
