@@ -1,2 +1,8 @@
+#include <bits/stdc++.h>
+using namespace std;
 
-    cout << "huy" ;
+int main()
+{
+    
+    return 0;
+}
