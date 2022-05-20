@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <iomanip>
 #include <utility>
+#include <set>
 #define FOR(i,a,b) for(int i=a;i<=b;++i)
 #define FORD(i,a,b) for(int i=a;i>=b;--i)
 using namespace std;
@@ -13,15 +14,20 @@ typedef long long ll;
 typedef double db;
 const long long mod = 1e9 + 7;
 
-int n, m;
-vector <int> a;
+int n;
+set<int> a;
+vector <int> vs;
 void test () {
-    cin >> n >> m;
-    a.resize(n + m);
-    for (auto &i : a)   cin >> i;
-    sort (a.begin(), a.end());
-    for (auto i : a)    cout << i << " ";
-    cout << endl;
+    cin >> n;
+    int x;
+    for (int i = 0; i < n; i++) {
+        cin >> x;
+        a.insert(x);
+    }
+    int l = *a.begin();
+    int r = *a.rbegin();
+
+    cout << r - l + 1 - a.size() << endl;
     a.clear();
 }
 int main () {

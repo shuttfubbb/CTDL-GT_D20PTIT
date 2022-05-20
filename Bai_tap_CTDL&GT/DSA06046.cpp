@@ -13,16 +13,17 @@ typedef long long ll;
 typedef double db;
 const long long mod = 1e9 + 7;
 
-int n, m;
-vector <int> a;
+int n;
+
 void test () {
-    cin >> n >> m;
-    a.resize(n + m);
+    cin >> n;
+    vector<ll> a(n);
     for (auto &i : a)   cin >> i;
-    sort (a.begin(), a.end());
-    for (auto i : a)    cout << i << " ";
-    cout << endl;
-    a.clear();
+    sort(a.begin(), a.end());
+    ll ans = mod;
+    for (int i = 0; i < n-1; i++) 
+        ans = min (ans, abs(a[i+1] - a[i]));
+    cout << ans << endl;
 }
 int main () {
     ios_base::sync_with_stdio(0);
@@ -30,7 +31,7 @@ int main () {
     cout.tie(NULL);
     int t;
     cin >> t;
-    while (t--) 
+    while (t--)
         test();
     return 0;
 }

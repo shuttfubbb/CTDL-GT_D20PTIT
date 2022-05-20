@@ -12,16 +12,20 @@ using namespace std;
 typedef long long ll;
 typedef double db;
 const long long mod = 1e9 + 7;
-
+vector<int> a, b;
 int n, m;
-vector <int> a;
 void test () {
     cin >> n >> m;
-    a.resize(n + m);
-    for (auto &i : a)   cin >> i;
-    sort (a.begin(), a.end());
-    for (auto i : a)    cout << i << " ";
-    cout << endl;
+    ll x, Min = 1e9, Max = -1e9;
+    while (n--) {
+        cin >> x;
+        Max = max (Max, x);
+    }
+    while (m--) {
+        cin >> x;
+        Min = min (Min, x);
+    }
+    cout << Max * Min << endl;
     a.clear();
 }
 int main () {
@@ -31,6 +35,6 @@ int main () {
     int t;
     cin >> t;
     while (t--) 
-        test();
+        test ();
     return 0;
 }

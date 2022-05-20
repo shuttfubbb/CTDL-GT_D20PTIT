@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <iomanip>
 #include <utility>
+#include <deque>
 #define FOR(i,a,b) for(int i=a;i<=b;++i)
 #define FORD(i,a,b) for(int i=a;i>=b;--i)
 using namespace std;
@@ -13,14 +14,23 @@ typedef long long ll;
 typedef double db;
 const long long mod = 1e9 + 7;
 
-int n, m;
-vector <int> a;
-void test () {
-    cin >> n >> m;
-    a.resize(n + m);
+vector<int> a;
+int n, k;
+void input () {
+    cin >> n >> k;
+    a.resize(n);
     for (auto &i : a)   cin >> i;
-    sort (a.begin(), a.end());
-    for (auto i : a)    cout << i << " ";
+}
+void test () {
+    input ();
+    deque <int> pos;
+    for (int i = 0; i < n; i++) {
+        while (!pos.empty() && a[pos.back()] < a[i])   
+            pos.pop_back();
+        pos.push_back(i);
+        while (i - pos.front() >= k) pos.pop_front();
+        if (i >= k - 1)  cout << a[pos.front()] << " ";
+    }
     cout << endl;
     a.clear();
 }
@@ -30,7 +40,8 @@ int main () {
     cout.tie(NULL);
     int t;
     cin >> t;
-    while (t--) 
+    while (t--) {
         test();
+    }
     return 0;
 }
