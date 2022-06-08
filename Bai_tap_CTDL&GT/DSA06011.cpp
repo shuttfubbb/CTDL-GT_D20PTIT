@@ -12,24 +12,16 @@ int main()
         vector<int> a;
         a.assign(n, 0);
         for(auto &i : a)
-        {
             cin >> i;
-        }
-        int ans = 0;
+        int ans = 1e9 + 7;
         for(int i=0; i<n-1; ++i)
         {
-            int pos = i;
             for(int j=i+1; j<n; ++j)
             {
-                if(a[pos] > a[j])
+                if(abs(a[i] + a[j]) < abs(ans))
                 {
-                    pos = j;
+                    ans = a[i] + a[j];
                 }
-            }
-            if(pos != i)
-            {
-                swap(a[pos], a[i]);
-                ++ans;
             }
         }
         cout << ans << endl;

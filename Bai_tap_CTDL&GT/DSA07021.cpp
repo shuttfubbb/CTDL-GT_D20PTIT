@@ -9,29 +9,20 @@ int main()
     {
         string str;
         cin >> str;
-        stack<char> myst;
+        stack<int> myst;
+        myst.push(-1);
         int ans = 0;
-        if(str.empty())
+        for(int i=0; i<str.size(); ++i)
         {
-            cout << 1 << endl;
-            continue;
-        }
-        for(auto it : str)
-        {
-            if(it == '(')
-                myst.push(it);
-            else
+            if(str[myst.top()] == '(' && str[i] == ')' && !myst.empty())
             {
-                if(!myst.empty() && myst.top() == '(')
-                {
-                    myst.pop();
-                    ++ans;
-                }
-                else
-                    myst.push(it);
+                myst.pop();
+                ans = max(ans, i-myst.top());
             }
+            else
+                myst.push(i);
         }
-        cout << ans * 2 << endl;
+        cout << ans << endl;
     }
     return 0;
 }
