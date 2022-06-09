@@ -1,82 +1,73 @@
-#include <iostream>
-#include <string>
-#include <math.h>
-#include <climits>
-#include <vector>
-#include <algorithm>
-#include <queue>
-#include <iomanip>
-#include <utility>
-#define FOR(i,a,b) for(int i=a;i<=b;++i)
-#define FORD(i,a,b) for(int i=a;i>=b;--i)
-#define tester()    int t; cin >> t; while (t--)
+#include <bits/stdc++.h>
 using namespace std;
-typedef long long ll;
-typedef double db;
-const long long mod = 1e9 + 7;
-int V, E, x, y, components;
-vector<vector<int> > g;
-vector<pair<int, int> > edge;
-vector<bool> vs;
-void init () {
-    components = 0, x = y = -1;
-    cin >> V >> E;
-    g.clear(); g.resize(V+5);
-    edge.clear(); edge.resize(E+5);
-    vs.assign(V+5, false);
-    int u, v;
-    FOR (i, 1, E) {
-        cin >> u >> v;
-        edge[i] = {u, v};
-        g[u].push_back(v);
-        g[v].push_back(u);
-    }
-}
-void bfs (int s) {
-    queue<int> q;
-    q.push(s);
-    vs[s] = true;
-    while (!q.empty()) {
-        int u = q.front(); q.pop();
-        if (!g[u].empty())
-        for (int v:g[u]) {
-            if ((u == x && v == y) || (u == y && v == x))
-                continue;
-            if (!vs[v]) {
-                q.push(v);
-                vs[v] = true;
+
+int v, e;
+int a[1001][1001];
+int b[1000000][1];
+int duyet[1001];
+
+int DFS(int x)
+{
+    int ans = 1;
+    stack<int> s;
+    s.push(x);
+    while(!s.empty())
+    {
+        int tmp = s.top();
+        //cout << tmp << " ";
+        duyet[tmp] = 1;
+        s.pop();
+        for(int i=1; i<=v; ++i)
+        {
+            if(a[tmp][i] == 1 && duyet[i] == 0)
+            {
+                duyet[i] = 1;
+                s.push(i);
+                ++ans;
             }
         }
     }
+    //cout << endl;
+    return ans;
 }
-void interconnectionComponents (int &cou) {
-    FOR (i, 1, V) 
-        if (!vs[i]) {
-            ++cou;
-            bfs(i);
+
+int main()
+{
+    int t;
+    cin >> t;
+    while(t--)
+    {
+        memset(a, 0, sizeof(a));
+        memset(b, 0, sizeof(b));
+        memset(duyet, 0, sizeof(duyet));
+        cin >> v >> e;
+        for(int i=1; i<=e; ++i)
+        {
+            int x, y;
+            cin >> x >> y;
+            a[x][y] = 1;
+            a[y][x] = 1;
         }
-}
-void findingBridge () {
-    int cou = 0;
-    vs.clear(); vs.assign(V+5, false);
-    FOR (i, 1, V) 
-        interconnectionComponents(cou);
-    if (cou > components)
-        cout << x << " " << y << " ";
-}
-void solution () {
-    init();
-    interconnectionComponents(components);
-    FOR (i, 1, E) {
-        x = edge[i].first, y = edge[i].second;
-        findingBridge();
+        for(int i=1; i<=v; ++i)
+        {
+            for(int j=i+1; j<=v; ++j)
+            {
+                if(a[i][j] == 1)
+                {
+                    a[i][j] = 0;
+                    a[j][i] = 0;
+                    memset(duyet, 0, sizeof(duyet));
+                    if(DFS(1) != v)
+                    {
+                        cout << i << " " << j << " ";
+                    }
+                    memset(duyet, 0, sizeof(duyet));
+                    a[i][j] = 1;
+                    a[j][i] = 1;
+                }
+            }
+        }
+        cout << endl;
     }
-    cout << endl;
-}
-int main () {
-    ios_base::sync_with_stdio(0);
-    cin.tie(NULL);
-    cout.tie(NULL);
-    tester()    solution();
     return 0;
 }

@@ -1,44 +1,34 @@
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 using namespace std;
 
-vector<vector <int> > a (1001, vector<int>(1001, 0));
-int v,e;
-int chuaxet[1001];
-int dinh = 0, canh = 0;
+vector<vector<int> > a (1001, vector<int>(1001, 0));
+int visit[1001];
+int v, e;
 
-
-void reinit()
+int DFS(int x)
 {
-    for(int i=1; i<= v; ++i)
+    stack<int> mys;
+    mys.push(x);
+    int ans = 1;
+    visit[x] = 1;
+    while(!mys.empty())
     {
-        chuaxet[i] = 1;
-    }
-}
-
-
-int BFS(int point)
-{
-    int num = 0;
-    queue<int> myqueue;
-    myqueue.push(point);
-    ++num;
-    chuaxet[point] = 0;
-    while( !myqueue.empty() )
-    {
-        int x = myqueue.front();
-        myqueue.pop();
+        int tmp = mys.top();
+        visit[tmp] = 1;
+        mys.pop();
         for(int i=1; i<=v; ++i)
         {
-            if(a[x][i] == 1 && chuaxet[i])
+            if(a[tmp][i] == 1 && visit[i] == 0)
             {
-                myqueue.push(i);
-                ++num;
-                chuaxet[i] = 0;
+                visit[i] = 1;
+                mys.push(i);
+                ++ans;
             }
         }
     }
-    return num;
+    return ans;
 }
+
 
 int main()
 {
@@ -46,10 +36,10 @@ int main()
     cin >> t;
     while(t--)
     {
-        cin >> v >> e;
         for(int i=0; i<1001; ++i)
             for(int j=0; j<1001; ++j)
                 a[i][j] = 0;
+        cin >> v >> e;
         for(int i=1; i<=e; ++i)
         {
             int x, y;
@@ -57,17 +47,17 @@ int main()
             a[x][y] = 1;
             a[y][x] = 1;
         }
-        reinit();
+        memset(visit, 0, sizeof(visit));
         for(int i=1; i<=v; ++i)
         {
-            chuaxet[i] = 0;
-            int x=1;
-            for(x; x<=v; ++x)
-                if(x != i)
+            visit[i] = 1;
+            int node;
+            for(node = 1; node<=v; ++node)
+                if(node != i)
                     break;
-            if(BFS(x) != v-1)
+            if(DFS(node) != v-1)
                 cout << i << " ";
-            reinit();
+            memset(visit, 0, sizeof(visit));
         }
         cout << endl;
     }

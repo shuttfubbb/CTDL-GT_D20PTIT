@@ -1,65 +1,42 @@
-#include <iostream>
-#include <string>
-#include <math.h>
-#include <climits>
-#include <vector>
-#include <algorithm>
-#include <iomanip>
-#include <utility>
-#include <stack>
-#define FOR(i,a,b) for(int i=a;i<=b;++i)
-#define FORD(i,a,b) for(int i=a;i>=b;--i)
-#define tester()    int t; cin >> t; while (t--)
+#include<bits/stdc++.h>
 using namespace std;
-typedef long long ll;
-typedef double db;
-const long long mod = 1e9 + 7;
-vector<vector<int> > a;
-vector<bool> vs;
 
-void DFS (int start) {
-    stack<int> st;
-    cout << start << " ";
-    st.push(start);
-    vs[start] = true;
-    while (!st.empty()) {
-        int u = st.top();
-        st.pop();
-        if (!a[u].empty())
-        FOR (i, 0, a[u].size()-1) {
-            int v = a[u][i];
-            if (!vs[v]) {
-                cout << v << " ";
-                vs[v] = true;
-                st.push(u);
-                st.push(v);
-                break;
-            }
+int a[1001][1001];
+int v, e, node;
+int visit[1001];
+
+void DFS(int node)
+{
+    cout << node << " ";
+    visit[node] = 1;
+    for(int i=1; i<=v; ++i)
+    {
+        if(a[node][i] == 1 && visit[i] == 0)
+        {
+            visit[i] = 1;
+            DFS(i);
         }
     }
 }
 
-int V, E, u;
-void input () {
-    cin >> V >> E >> u;
-    a.resize(V+1);
-    vs.assign(V+1, false);
-    int i, j;
-    FOR (k, 1, E) {
-        cin >> i >> j;
-        a[i].push_back(j);
+
+int main()
+{
+    int t;
+    cin >> t;
+    while(t--)
+    {
+        memset(a, 0, sizeof(a));
+        memset(visit, 0, sizeof(visit));
+        cin >> v >> e >> node;
+        for(int i=1; i<=e; ++i)
+        {
+            int x, y;
+            cin >> x >> y;
+            a[x][y] = 1;
+        }
+        DFS(node);
+        cout << endl;
     }
-}
-void test () {
-    input();
-    DFS(u);
-    cout << endl;
-    a.clear();
-}
-int main () {
-    ios_base::sync_with_stdio(0);
-    cin.tie(NULL);
-    cout.tie(NULL);
-    tester()    test();
     return 0;
 }
