@@ -5,28 +5,17 @@ int a[1001][1001];
 int vs[1001];
 int v, e;
 
-void DFS(int u)
-{
-	vs[u] = 1;
-	for(int i=1; i<=v; ++i)
-		if(a[u][i] == 1 && vs[i] == 0)
-			DFS(i);
-}
-
-
-int TPLT_DFS()
+int deg(int node)
 {
 	int cnt = 0;
 	for(int i=1; i<=v; ++i)
-	{
-		if(vs[i] == 0)
-		{
-			DFS(i);
+		if(a[node][i] == 1)
 			++cnt;
-		}
-	}
-	return cnt;
+	if(cnt % 2 == 0)
+		return 1;
+	return 0;
 }
+
 
 int main()
 {
@@ -34,6 +23,7 @@ int main()
 	cin >> t;
 	while(t--)
 	{
+		int check = 0;
 		memset(a, 0, sizeof(a));
 		memset(vs, 0, sizeof(vs));
 		cin >> v >> e;
@@ -44,8 +34,15 @@ int main()
 			a[x][y] = 1;
 			a[y][x] = 1;
 		}
-		cout << TPLT_DFS() << endl;
+		int cnt = 0;
+		for(int i=1; i<=v; ++i)
+			cnt += deg(i);
+		if(v-cnt == 2)
+			check = 1;
+		else if(cnt == v)
+			check = 2;
+		cout << check << endl;
 	}
- 	return 0;
+	return 0;
 }
 

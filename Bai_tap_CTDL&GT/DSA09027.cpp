@@ -1,70 +1,66 @@
-#include <iostream>
-#include <string>
-#include <math.h>
-#include <climits>
-#include <vector>
-#include <algorithm>
-#include <queue>
-#include <iomanip>
-#include <utility>
-#define FOR(i,a,b) for(int i=a;i<=b;++i)
-#define FORD(i,a,b) for(int i=a;i>=b;--i)
-#define tester()    int t; cin >> t; while (t--)
+#include <bits/stdc++.h>
 using namespace std;
-typedef long long ll;
-typedef double db;
-const long long mod = 1e9 + 7;
 
-vector<vector<int> > a, res;
-vector<bool> vs;
-int V, E;
-void BFS (int s) {
-    vs.assign(V+1, false);
-    queue<int> q;
-    q.push(s);
-    vs[s] = true;
-    while (!q.empty()) {
-        int u = q.front();
-        q.pop();
-        if (!a[u].empty())
-        FOR (i, 0, a[u].size()-1) {
-            int v = a[u][i];
-            if (!vs[v]) {
-                res[s][v] = res[v][s] = 1;
-                q.push(v);
-                vs[v] = true;
+int a[1001][1001];
+int v, e;
+int visit[1001];
+int res[1001][1001];
+
+void DFS(int node)
+{
+    stack<int> mys;
+    mys.push(node);
+    visit[node] = 1;
+    while(!mys.empty())
+    {
+        int tmp = mys.top();
+        visit[tmp] = 1;
+        mys.pop();
+        for(int i=1; i<=v; ++i)
+        {
+            if(a[tmp][i] == 1 && visit[i] == 0)
+            {
+                res[node][i] = res[i][node] = 1;
+                mys.push(i);
+                visit[i] = 1;
             }
         }
     }
 }
-void input () {
-    cin >> V >> E;
-    a.resize(V+1);
-    res.assign(V+1, vector<int> (V+1, 0));
-    int i, j;
-    FOR (k, 1, E) {
-        cin >> i >> j;
-        a[i].push_back(j);
-        a[j].push_back(i);
+
+int main()
+{
+    int t;
+    cin >> t;
+    while(t--)
+    {
+        cin >> v >> e;
+        memset(a, 0, sizeof(a));
+        memset(visit, 0, sizeof(visit));
+        memset(res, 0, sizeof(res));
+        for(int i=1; i<=e; ++i)
+        {
+            int x, y;
+            cin >> x >> y;
+            a[x][y] = 1;
+            a[y][x] = 1;
+        }
+        for(int i=1; i<=v; ++i)
+        {
+            memset(visit, 0, sizeof(visit));
+            DFS(i);
+        }
+        int q;
+        cin >> q;
+        while(q--)
+        {
+            int x, y;
+            cin >> x >> y;
+            if(res[x][y])
+                cout << "YES\n";
+            else
+                cout << "NO\n";
+        }
     }
-}
-void test () {
-    input();
-    FOR (i, 1, V)
-        BFS(i);
-    int q;
-    cin >> q;
-    int i, j;
-    while (q--) {
-        cin >> i >> j;
-        res[i][j] ? cout << "YES\n" : cout << "NO\n";
-    }
-    a.clear();
-}
-int main () {
-    ios_base::sync_with_stdio(0);
-    cin.tie(NULL);
-    cout.tie(NULL);
-    tester()    test();
     return 0;
 }

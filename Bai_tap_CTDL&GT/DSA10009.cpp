@@ -1,44 +1,52 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-const int MAX = 2000000000;
+/*
+------------------------FLOYD----------------------
+*/
 
+long long a[101][101];
+long long d[101][101];
+long long p[101][101];
 int v, e;
-int a[101][101], d[101][101], p[101][101];
+const int MAX = __INT_MAX__;
+
+
 
 int main()
 {
+    // INIT
     cin >> v >> e;
     for(int i=1; i<=v; ++i)
         for(int j=1; j<=v; ++j)
             a[i][j] = MAX;
     for(int i=1; i<=e; ++i)
     {
-        int x, y, val;
-        cin >> x >> y >> val;
-        a[x][y] = val;
-        a[y][x] = val;
+        int x, y, num;
+        cin >> x >> y >> num;
+        a[x][y] = num;
+        a[y][x] = num;
     }
-    // ---------FLOY-----------
-    // INIT
+
     for(int i=1; i<=v; ++i)
     {
         for(int j=1; j<=v; ++j)
         {
             d[i][j] = a[i][j];
-            if(d[i][j] == MAX)
+            if(a[i][j] == MAX)
                 p[i][j] = 0;
             else
                 p[i][j] = i;
         }
     }
+    // FLOY
     for(int k=1; k<=v; ++k)
     {
         for(int i=1; i<=v; ++i)
         {
             for(int j=1; j<=v; ++j)
             {
-                if(d[i][k] != MAX && d[i][j] > d[i][k] + d[k][j])
+                if(d[i][j] > d[i][k] + d[k][j] && d[i][k] != MAX)
                 {
                     d[i][j] = d[i][k] + d[k][j];
                     p[i][j] = p[k][j];
@@ -46,6 +54,7 @@ int main()
             }
         }
     }
+    // ANSWER
     int q;
     cin >> q;
     while(q--)

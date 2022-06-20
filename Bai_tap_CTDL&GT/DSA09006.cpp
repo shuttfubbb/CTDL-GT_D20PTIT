@@ -1,79 +1,69 @@
-#include <iostream>
-#include <string>
-#include <math.h>
-#include <climits>
-#include <vector>
-#include <algorithm>
-#include <iomanip>
-#include <utility>
-#include <stack>
-#define FOR(i,a,b) for(int i=a;i<=b;++i)
-#define FORD(i,a,b) for(int i=a;i>=b;--i)
-#define tester()    int t; cin >> t; while (t--)
+#include<bits/stdc++.h>
 using namespace std;
-typedef long long ll;
-typedef double db;
-const long long mod = 1e9 + 7;
-int V, E, s, t, u, v;
-vector<vector<int> > a;
-vector<int> vs, mark;
-void init () {
-    cin >> V >> E >> s >> t;
-    a.resize(V+1);
-    FOR (i, 0, E-1) {
-        cin >> u >> v;
-        a[u].push_back(v);
-        a[v].push_back(u);
-    }
-}
-void DFS (int s) {
-    vs.assign(V+1, 0);
-    mark.assign(V+1, -1);
-    stack<int> st;
-    st.push(s);
-    vs[s] = 1;
-    while (!st.empty()) {
-        int u = st.top();
-        st.pop();
-        if (u == t) return;
-        if (!a[u].empty())
-        FOR (i, 0, a[u].size()-1) {
-            int v = a[u][i];
-            if (!vs[v]) {
-                st.push(u);
-                st.push(v);
-                vs[v] = 1;
-                mark[v] = u;
-                break;
+
+int a[1001][1001];
+int vs[1001];
+int res[1001];
+int v, e;
+int s, f;
+
+void DFS(int node)
+{
+    stack<int> mys;
+    mys.push(node);
+    while(!mys.empty())
+    {
+        int tmp = mys.top();
+        vs[tmp] = 1;
+        mys.pop();
+        for(int i=1; i<=v; ++i)
+        {
+            if(a[tmp][i] == 1 && vs[i] == 0)
+            {
+                res[i] = tmp;
+                vs[i] = 1;
+                mys.push(i);
             }
         }
     }
 }
-void trace () {
-    if (!vs[t]) {
-        cout << "-1\n";
-        return;
+
+
+
+int main()
+{
+    int t;
+    cin >> t;
+    while(t--)
+    {
+        memset(a, 0, sizeof(a));
+        memset(vs, 0, sizeof(vs));
+        memset(res, 0, sizeof(res));
+        cin >> v >> e >> s >> f;
+        for(int i=1; i<=e; ++i)
+        {
+            int x, y;
+            cin >> x >> y;
+            a[x][y] = 1;
+            a[y][x] = 1;
+        }
+        DFS(s);
+        if(vs[f])
+        {
+            vector<int> ans;
+            int t = v;
+            while(t > 0)
+            {
+                ans.push_back(t);
+                t = res[t];
+            }
+            reverse(ans.begin(), ans.end());
+            for(auto it : ans)
+                cout << it << " ";
+            cout << endl;
+        }
+        else
+            cout << -1 << endl;
     }
-    vector<int> step;
-    int prevStep = t;
-    while (prevStep != -1) {
-        step.push_back(prevStep);
-        prevStep = mark[prevStep];
-    }
-    FORD (i, step.size()-1, 0)
-        cout << step[i] << " ";
-    cout << endl;
-}
-void test () {
-    init();
-    DFS(s);
-    trace();
-    a.clear();
-}
-int main () {
-    ios_base::sync_with_stdio(0);
-    cin.tie(NULL);
-    cout.tie(NULL);
-    tester()    test();
     return 0;
 }

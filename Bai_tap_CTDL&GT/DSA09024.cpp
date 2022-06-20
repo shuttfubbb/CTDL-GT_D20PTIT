@@ -1,62 +1,51 @@
-#include <iostream>
-#include <string>
-#include <math.h>
-#include <climits>
-#include <vector>
-#include <algorithm>
-#include <queue>
-#include <iomanip>
-#include <utility>
-#define FOR(i,a,b) for(int i=a;i<=b;++i)
-#define FORD(i,a,b) for(int i=a;i>=b;--i)
-#define tester()    int t; cin >> t; while (t--)
+#include <bits/stdc++.h>
 using namespace std;
-typedef long long ll;
-typedef double db;
-const long long mod = 1e9 + 7;
 
-vector<vector<int> > a;
-vector<bool> vs;
-void BFS (int s) {
-    queue<int> q;
-    cout << s << " ";
-    q.push(s);
-    vs[s] = true;
-    while (!q.empty()) {
-        int u = q.front();
-        q.pop();
-        if (!a[u].empty())
-        FOR (i, 0, a[u].size()-1) {
-            int v = a[u][i];
-            if (!vs[v]) {
-                cout << v << " ";
-                q.push(v);
-                vs[v] = true;
+int a[1001][1001];
+int vs[1001];
+int v, e;
+
+void BFS(int node)
+{
+    queue<int> myq;
+    myq.push(node);
+    vs[node] = 1;
+    while(!myq.empty())
+    {
+        int tmp = myq.front();
+        cout << tmp << " ";
+        vs[tmp] = 1;
+        myq.pop();
+        for(int i=1; i<=v; ++i)
+        {
+            if(a[tmp][i] == 1 && vs[i] == 0)
+            {
+                vs[i] = 1;
+                myq.push(i);
             }
         }
     }
 }
-int V, E, u;
-void input () {
-    cin >> V >> E >> u;
-    a.resize(V+1);
-    vs.assign(V+1, false);
-    int i, j;
-    FOR (k, 1, E) {
-        cin >> i >> j;
-        a[i].push_back(j);
+
+
+int main()
+{
+    int t;
+    cin >> t;
+    while(t--)    
+    {
+        int node;
+        cin >> v >> e >> node;
+        memset(a, 0, sizeof(a));
+        memset(vs, 0, sizeof(vs));
+        for(int i=1; i<=e; ++i)
+        {
+            int x, y;
+            cin >> x >> y;
+            a[x][y] = 1;
+        }
+        BFS(node);
+        cout << endl;
     }
-}
-void test () {
-    input();
-    BFS(u);
-    cout << endl;
-    a.clear();
-}
-int main () {
-    ios_base::sync_with_stdio(0);
-    cin.tie(NULL);
-    cout.tie(NULL);
-    tester()    test();
     return 0;
 }

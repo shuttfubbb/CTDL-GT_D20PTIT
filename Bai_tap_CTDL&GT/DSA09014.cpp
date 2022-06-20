@@ -5,28 +5,24 @@ int a[1001][1001];
 int vs[1001];
 int v, e;
 
-void DFS(int u)
+bool DFS(int node, int par)
 {
-	vs[u] = 1;
-	for(int i=1; i<=v; ++i)
-		if(a[u][i] == 1 && vs[i] == 0)
-			DFS(i);
-}
-
-
-int TPLT_DFS()
-{
-	int cnt = 0;
+	vs[node] = 1;
 	for(int i=1; i<=v; ++i)
 	{
-		if(vs[i] == 0)
+		if(a[node][i] == 1 && vs[i] == 0)
 		{
-			DFS(i);
-			++cnt;
+			if(DFS(i, node))
+				return true;
+		}
+		else if(a[node][i] == 1 && i != par)
+		{
+			return true;
 		}
 	}
-	return cnt;
+	return false;
 }
+
 
 int main()
 {
@@ -44,7 +40,10 @@ int main()
 			a[x][y] = 1;
 			a[y][x] = 1;
 		}
-		cout << TPLT_DFS() << endl;
+		if(DFS(1,0))
+			cout << "YES\n";
+		else
+			cout << "NO\n";
 	}
  	return 0;
 }
